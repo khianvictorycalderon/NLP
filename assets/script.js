@@ -1,6 +1,18 @@
 let convo = [];
 const API_PATH = "http://localhost:9000/nlp.js?t=" + (new Date()).getTime();
 
+/*
+
+  Example convo data:
+  [
+    "Hi there!",
+    "Hello user",
+    "Who are you?",
+    and so on...., (alternating user, bot, user, and so on, the last index is the latest user input)
+  ]
+
+*/
+
 // -------------- UI ------------------------------
 
 function renderUserMessage(message) {
@@ -67,6 +79,7 @@ function init() {
     
     if (userInput.value.trim() === "") {
       alert("Please provide an input!");
+      return;
     }
 
     userInput.disabled = true;
