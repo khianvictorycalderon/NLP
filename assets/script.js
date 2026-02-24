@@ -1,5 +1,5 @@
 let convo = [];
-const API_PATH = "http://localhost:9000/nlp.js?t=" + (new Date()).getTime();
+const API_PATH = "https://khianvictorycalderon.github.io/NLP-Frontend-API/nlp.js?t=" + (new Date()).getTime();
 
 /*
 
