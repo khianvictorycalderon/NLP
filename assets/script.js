@@ -44,6 +44,7 @@ async function generateResponse(convo) {
     }
 
     const reply = window.API.generateResponse(convo);
+    convo.push(reply);
 
     renderBotMessage(reply);
     chatBox.scrollTop = chatBox.scrollHeight;
