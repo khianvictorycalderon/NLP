@@ -20,9 +20,28 @@ function renderBotMessage(message) {
     </p> 
   `;
 }
+// -------------- Response Functions ------------------------------
 
-// -------------- Response Logic ------------------------------
+// ------------------ Initialization ---------------------------
+
+function init() {
+
+  const form = document.getElementById("form");
+  const userInput = document.getElementById("user-input");
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    
+    if (userInput.value.trim() === "") {
+      alert("Please provide an input!");
+    }
+
+    // Clears input value
+    userInput.value = "";
+
+  })
+}
+
 (() => {
-  renderUserMessage("Hello");
-  renderBotMessage("Hi");
+  init();
 })();
