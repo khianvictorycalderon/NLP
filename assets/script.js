@@ -1,3 +1,5 @@
+let convo = [];
+const API_PATH = "http://localhost:9000/nlp.js?t=" + (new Date()).getTime();
 
 // -------------- UI ------------------------------
 
@@ -21,6 +23,36 @@ function renderBotMessage(message) {
   `;
 }
 // -------------- Response Functions ------------------------------
+async function generateResponse(convo) {
+  const chatBox = document.getElementById("chat-box");
+  try {
+    // Fetch the JS file
+    const response = await fetch(API_PATH);
+
+    if (!response.ok) {
+      throw new Error("Failed to load NLP API");
+    }
+
+    const scriptText = await response.text();
+
+    // Execute the script globally
+    new Function(scriptText)();
+
+    // Now window.API should exist
+    if (!window.API || !window.API.generateResponse) {
+      throw new Error("API not available after loading script.");
+    }
+
+    const reply = window.API.generateResponse(convo);
+
+    renderBotMessage(reply);
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+  } catch (error) {
+    console.error(error);
+    renderBotMessage("Something went wrong.");
+  }
+}
 
 // ------------------ Initialization ---------------------------
 
@@ -29,15 +61,24 @@ function init() {
   const form = document.getElementById("form");
   const userInput = document.getElementById("user-input");
 
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
     
     if (userInput.value.trim() === "") {
       alert("Please provide an input!");
     }
 
+    userInput.disabled = true;
+    renderUserMessage(userInput.value);
+
+    convo.push(userInput.value);
+
+    await generateResponse(convo);
+
     // Clears input value
     userInput.value = "";
+    userInput.disabled = false;
+    userInput.focus();
 
   })
 }
